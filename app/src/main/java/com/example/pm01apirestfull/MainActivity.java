@@ -22,13 +22,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     ListView list;
-    ArrayList<String> titles = new ArrayList<>();
+    ArrayList<String> titulos = new ArrayList<>();
     ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        obtengaListaUsuarios();
+
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, titulos);
+        list = (ListView) findViewById(R.id.lista);
+        list.setAdapter(arrayAdapter);
+
     }
 
     private void obtengaListaUsuarios()
@@ -47,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
                 for(Usuarios usuarios : response.body())
                 {
                     Log.i(usuarios.getTitle(), "onResponse: ");
+                    titulos.add(usuarios.getTitle());
                 }
+                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
